@@ -21,12 +21,14 @@ async function main() {
 
   // console.log("Greeter deployed to:", erc721.address);
 
-  let tokenUris: string[] = new Array(50);
-  tokenUris.fill("QmWVq4bi1ccWgM5sXLP6ezZxhQmdgk2EjadMTuFxJXujoL");
+  let tokenUris: string[] = new Array(3);
+  tokenUris.fill(
+    "https://ipfs.io/ipfs/QmWVq4bi1ccWgM5sXLP6ezZxhQmdgk2EjadMTuFxJXujoL"
+  );
 
   let erc721 = await ethers.getContractAt(
-    "ERC721Mintable",
-    "0x1f234c9ccec08e33e52926bb839a806891187ccb"
+    "contracts/factory.sol:ERC721Mintable",
+    "0x0ab8521Cb0e491bF47f5f93C902001e2cEc810Ee"
   );
 
   console.log("name: ", await erc721.name());
