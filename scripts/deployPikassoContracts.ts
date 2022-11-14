@@ -20,6 +20,26 @@ async function main() {
   await codelightFactory.deployed();
 
   console.log("Factory deployed to:", codelightFactory.address);
+
+  //-------------------------------------------------------------------------
+
+  const ERC721 = await ethers.getContractFactory(
+    "contracts/factory.sol:ERC721Mintable"
+  );
+  const erc721 = await ERC721.deploy("Pikasso", "PKN");
+
+  await erc721.deployed();
+
+  console.log("ERC721Mintable deployed to:", erc721.address);
+
+  //-------------------------------------------------------------------------
+
+  const CodelightMultiSender = await ethers.getContractFactory("MultiSender");
+  const codelightMultiSender = await CodelightMultiSender.deploy();
+
+  await codelightMultiSender.deployed();
+
+  console.log("Multisender deployed to:", codelightMultiSender.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

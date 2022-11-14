@@ -5,6 +5,7 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 // import "@openzeppelin/contracts";
+// import "tt-hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
@@ -40,6 +41,11 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    goerli: {
+      url: process.env.GOERLI_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
     oneTestnet: {
       url: `https://api.s0.b.hmny.io`,
       accounts: [`0x${process.env.PRIVATE_KEY_ONE}`],
@@ -50,6 +56,32 @@ const config: HardhatUserConfig = {
       // gas: 8100000,
       gasPrice: 8000000000,
     },
+
+    "thunder-testnet": {
+      allowUnlimitedContractSize: true,
+      url: "https://testnet-rpc.thundercore.com",
+      chainId: 18,
+      gas: 90000000,
+      gasPrice: 15e9,
+      gasMultiplier: 1,
+      timeout: 20000,
+      httpHeaders: {},
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+
+    "thunder-mainnet": {
+      allowUnlimitedContractSize: true,
+      url: "https://mainnet-rpc.thundercore.com",
+      chainId: 108,
+      gas: 90000000,
+      gasPrice: 15e9,
+      gasMultiplier: 1,
+      timeout: 20000,
+      httpHeaders: {},
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
@@ -57,10 +89,21 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      rinkeby: process.env.ETHERSCAN_API_KEY,
+      goerli: <string>process.env.ETHERSCAN_API_KEY,
       harmonyTest: `${process.env.ETHERSCAN_KEY}`,
       polygonMumbai: `${process.env.MUMBAI_API_KEY}`,
+      "thunder-testnet": "unused",
     },
+    customChains: [
+      {
+        network: "thunder-testnet",
+        chainId: 18,
+        urls: {
+          apiURL: "https://explorer-testnet.thundercore.com/api",
+          browserURL: "https://explorer-testnet.thundercore.com",
+        },
+      },
+    ],
   },
 };
 

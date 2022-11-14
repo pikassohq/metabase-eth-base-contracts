@@ -10,12 +10,11 @@ const compiledArgentAccount = JSON.parse(
     .readFileSync(
       path.join(
         __dirname,
-        "../artifacts/contracts/erc721_mintable.sol/ERC721Mintable.json"
+        "../artifacts/contracts/factory.sol/CodelightFactory.json"
       )
     )
     .toString("ascii")
 );
-
 async function main() {
   //-----------------------deploy---------------
   // // const ethersProvider = new ethers.providers.JsonRpcProvider(
@@ -44,42 +43,39 @@ async function main() {
   // let wallet = new ethers.Wallet(<string>process.env.PRIVATE_KEY);
 
   const ethersProvider = new ethers.providers.JsonRpcProvider(
-    process.env.ONE_URL
+    "https://testnet-rpc.thundercore.com",
+    {
+      name: "thunder-testnet",
+      chainId: 18,
+    }
   );
   await ethersProvider.ready;
-  let wallet = new ethers.Wallet(<string>process.env.PRIVATE_KEY_ONE);
+  let wallet = new ethers.Wallet(<string>process.env.PRIVATE_KEY);
 
   const account = wallet.connect(ethersProvider);
-  // let erc721 = new ethers.Contract(
-  //   <string>process.env.ERC721_CONTRACT,
-  //   compiledArgentAccount.abi,
-  //   account
-  // );
 
   let erc721 = new ethers.Contract(
-    <string>process.env.ERC721_CONTRACT_ONE,
+    "0x0ab8521Cb0e491bF47f5f93C902001e2cEc810Ee",
     compiledArgentAccount.abi,
     account
   );
 
-  let tokenUris: string[] = new Array(50);
-  tokenUris.fill(
-    "https://ipfs.io/ipfs/Qmch3m7DEFYRaZiFG6gc8qgkBMS3nrTvM5h5v9xZK6rGEz"
-  );
-  console.log("name: ", await erc721.name());
-  let estimateGas = await erc721.estimateGas.batchMint(
-    "0xF09DcCa78806534afAabA5fbA860fd40e1DCa7c8",
-    tokenUris,
-    { gasLimit: 7210891 }
-  );
+  // let tokenUris: string[] = new Array(2);
+  // tokenUris.fill(
+  //   "https://ipfs.io/ipfs/Qmch3m7DEFYRaZiFG6gc8qgkBMS3nrTvM5h5v9xZK6rGEz"
+  // );
+  // console.log("name: ", await erc721.name());
+  // let estimateGas = await erc721.estimateGas.batchMint(
+  //   "0xF09DcCa78806534afAabA5fbA860fd40e1DCa7c8",
+  //   tokenUris,
+  //   { gasLimit: 7210891 }
+  // );
 
-  console.log("estimateGas: ", estimateGas);
+  // console.log("estimateGas: ", estimateGas);
 
-  let tx = await erc721.batchMint(
-    "0xF09DcCa78806534afAabA5fbA860fd40e1DCa7c8",
-    tokenUris,
-    { gasLimit: Math.floor((estimateGas.toNumber() * 100) / 70) }
-  );
+  let tx = await erc721.deployErc721([
+    "0xF2843c5Cf5a435F37b927dBCA629f30454B65F3e",
+  ]);
   console.log("tx", tx.hash);
   await ethersProvider.waitForTransaction(tx.hash);
 }

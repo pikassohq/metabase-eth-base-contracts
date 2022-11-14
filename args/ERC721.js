@@ -1,1 +1,1 @@
-module.exports = ["Codelight", "CLN"];
+module.exports = ["Pikasso", "PKN"];

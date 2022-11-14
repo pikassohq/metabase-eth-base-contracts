@@ -5,8 +5,13 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./erc721_mintable.sol";
 
-contract CodelightFactory is Ownable {
+contract PikassoFactory is Ownable {
     mapping(address => ERC721Mintable) public _erc721Mintables;
+    string public name;
+
+    constructor(string memory name_) {
+        name = name_;
+    }
 
     function deployErc721(address[] calldata collections) public onlyOwner {
         uint256 collectionLength = collections.length;
@@ -14,8 +19,8 @@ contract CodelightFactory is Ownable {
 
         for (uint256 index; index < collectionLength; index++) {
             _erc721Mintables[collections[index]] = new ERC721Mintable(
-                "Codelight",
-                "CLN"
+                "Pikasso",
+                "PKN"
             );
 
             _erc721Mintables[collections[index]].transferOwnership(

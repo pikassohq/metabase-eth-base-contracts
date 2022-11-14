@@ -14,15 +14,14 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const ERC721 = await ethers.getContractFactory("ERC721Mintable");
-  const erc721 = await ERC721.deploy("Codelight", "CLN");
+  const ERC721 = await ethers.getContractFactory(
+    "contracts/factory.sol:ERC721Mintable"
+  );
+  const erc721 = await ERC721.deploy("Pikasso", "PKN");
 
   await erc721.deployed();
 
-  console.log("Greeter deployed to:", erc721.address);
-
-  // let tokenUris: string[] = new Array(2);
-  // tokenUris.fill("QmWVq4bi1ccWgM5sXLP6ezZxhQmdgk2EjadMTuFxJXujoL");
+  console.log("ERC721Mintable deployed to:", erc721.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
