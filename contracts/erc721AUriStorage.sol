@@ -6,8 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract ERC721AURIStorage is ERC721A, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+   
      // Optional mapping for token URIs
     mapping(uint256 => string) private _tokenURIs;
 
@@ -49,11 +48,10 @@ contract ERC721AURIStorage is ERC721A, Ownable {
     }
 
     function mint(address _to, string memory _tokenURI) public onlyOwner {
-        _tokenIds.increment();
 
-        uint256 tokenId = _tokenIds.current();
+        uint256 tokenId =  _nextTokenId();
 
-        _mint(_to, tokenId);
+        _mint(_to, 1);
         _setTokenURI(tokenId, _tokenURI);        
     }
 
